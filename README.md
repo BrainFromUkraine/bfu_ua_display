@@ -21,7 +21,26 @@ A lightweight, optimized library for rendering Ukrainian text on displays common
 
 ## 📦 Installation
 
-### ⭐ Recommended Method: Using mpremote (Most Reliable)
+### ⭐ Official Method: Using mip (Recommended)
+
+**Note:** This package is prepared for submission to the official MicroPython package index. Once accepted, you will be able to install it directly using:
+
+```python
+import mip
+mip.install("bfu_ua_display")
+```
+
+Or using mpremote from your PC:
+
+```bash
+mpremote connect COM3 mip install bfu_ua_display
+```
+
+**Status:** Pending submission to micropython-lib. Until then, use one of the alternative methods below.
+
+---
+
+### Alternative Method 1: Using mpremote (Most Reliable)
 
 **mpremote** is the official MicroPython tool that works reliably across all firmware versions and avoids network/TLS issues.
 
@@ -76,7 +95,7 @@ mpremote connect /dev/ttyUSB0 fs cp bfu_ua_display/utils.py :/lib/bfu_ua_display
    - On your ESP32, create a `lib` folder if it doesn't exist
    - Drag the `bfu_ua_display` folder into the `lib` folder
 
-### Alternative Method 2: Direct mip Installation (Experimental - May Fail)
+### Alternative Method 2: GitHub mip Installation (Experimental - May Fail)
 
 **⚠️ WARNING:** This method is **experimental** and **frequently fails** on many ESP32 MicroPython firmware versions due to HTTPS/TLS/DNS limitations. **Use mpremote or Thonny instead** for reliable installation.
 
@@ -121,14 +140,14 @@ print("✓ BFU UA Display installed successfully!")
 
 **Common Failure:** `OSError: -202` when downloading from raw.githubusercontent.com means the ESP32 MicroPython firmware cannot complete HTTPS/TLS/DNS requests. This is a **firmware limitation**, not a library issue. **Use mpremote or Thonny instead.**
 
-### Alternative Method 3: Package mip (May Have Issues)
+### Alternative Method 3: GitHub Package mip (Experimental)
 
 ```python
 import mip
 mip.install("github:BrainFromUkraine/bfu_ua_display")
 ```
 
-**⚠️ Warning:** This method may fail on some ESP32 firmware versions due to TLS/DNS/network issues. Use Method 2 (Direct mip) or the mpremote method if this fails.
+**⚠️ Warning:** This method is experimental and may fail on some ESP32 firmware versions due to GitHub HTTPS/chunked transfer limitations. Use the mpremote method for reliable installation.
 
 ### Verify Installation
 
