@@ -21,14 +21,71 @@ A lightweight, optimized library for rendering Ukrainian text on displays common
 
 ## 📦 Installation
 
-### Recommended Method: Using mip
+### ⭐ Recommended Method: Using mpremote (Most Reliable)
+
+**mpremote** is the official MicroPython tool that works reliably across all firmware versions and avoids network/TLS issues.
+
+#### Step 1: Install mpremote on your PC
+
+```bash
+pip install mpremote
+```
+
+#### Step 2: Download the library
+
+```bash
+git clone https://github.com/BrainFromUkraine/bfu_ua_display.git
+cd bfu_ua_display
+```
+
+Or download ZIP from GitHub and extract it.
+
+#### Step 3: Install to ESP32
+
+**Windows:**
+```bash
+mpremote connect COM3 fs mkdir :/lib/bfu_ua_display
+mpremote connect COM3 fs cp bfu_ua_display/__init__.py :/lib/bfu_ua_display/__init__.py
+mpremote connect COM3 fs cp bfu_ua_display/font5x7.py :/lib/bfu_ua_display/font5x7.py
+mpremote connect COM3 fs cp bfu_ua_display/text_engine.py :/lib/bfu_ua_display/text_engine.py
+mpremote connect COM3 fs cp bfu_ua_display/utils.py :/lib/bfu_ua_display/utils.py
+```
+
+**Linux/Mac:**
+```bash
+mpremote connect /dev/ttyUSB0 fs mkdir :/lib/bfu_ua_display
+mpremote connect /dev/ttyUSB0 fs cp bfu_ua_display/__init__.py :/lib/bfu_ua_display/__init__.py
+mpremote connect /dev/ttyUSB0 fs cp bfu_ua_display/font5x7.py :/lib/bfu_ua_display/font5x7.py
+mpremote connect /dev/ttyUSB0 fs cp bfu_ua_display/text_engine.py :/lib/bfu_ua_display/text_engine.py
+mpremote connect /dev/ttyUSB0 fs cp bfu_ua_display/utils.py :/lib/bfu_ua_display/utils.py
+```
+
+**Note:** Replace `COM3` or `/dev/ttyUSB0` with your actual port.
+
+### Alternative Method 1: Using Thonny IDE (Easiest for Beginners)
+
+1. Download the library from GitHub:
+   - Go to https://github.com/BrainFromUkraine/bfu_ua_display
+   - Click "Code" → "Download ZIP"
+   - Extract the ZIP file
+
+2. Install using Thonny:
+   - Open Thonny IDE
+   - Connect your ESP32
+   - View → Files
+   - On your ESP32, create a `lib` folder if it doesn't exist
+   - Drag the `bfu_ua_display` folder into the `lib` folder
+
+### Alternative Method 2: On-Device mip (May Have Issues)
+
+**⚠️ Warning:** This method may fail on some ESP32 firmware versions due to TLS/DNS/network issues.
 
 ```python
 import mip
 mip.install("github:BrainFromUkraine/bfu_ua_display")
 ```
 
-This will install the library to `/lib/bfu_ua_display/` on your ESP32.
+If you encounter errors like `OSError: -202` or `Unsupported Transfer-Encoding: chunked`, use the mpremote method instead.
 
 ### Verify Installation
 
@@ -44,44 +101,6 @@ import bfu_ua_display
 print(f"Version: {bfu_ua_display.__version__}")
 ```
 
-### Alternative: Manual Installation
-
-If you prefer manual installation or encounter issues with mip:
-
-1. Download the library files from GitHub:
-   - Go to https://github.com/BrainFromUkraine/bfu_ua_display
-   - Download the `bfu_ua_display` folder
-
-2. Upload to your ESP32 using:
-   - **Thonny IDE** (easiest for beginners):
-     1. Open Thonny IDE
-     2. Connect your ESP32
-     3. View → Files
-     4. Create a `lib` folder on your ESP32 if it doesn't exist
-     5. Drag the `bfu_ua_display` folder into the `lib` folder
-   
-   - **ampy**: `ampy put bfu_ua_display /lib/bfu_ua_display`
-   - **rshell**: `rsync bfu_ua_display /pyboard/lib/`
-   - **mpremote**: `mpremote cp -r bfu_ua_display :lib/`
-
-### Cleanup (If You Had Installation Issues)
-
-If you previously installed the library incorrectly and have nested folders, clean up first:
-
-```python
-import os
-
-# Remove incorrect installation
-try:
-    os.rmdir('/lib/bfu_ua_display')
-except:
-    pass
-
-# Then reinstall using mip
-import mip
-mip.install("github:BrainFromUkraine/bfu_ua_display")
-```
-
 ### Troubleshooting
 
 **Problem:** `ImportError: no module named 'bfu_ua_display'`
@@ -89,15 +108,35 @@ mip.install("github:BrainFromUkraine/bfu_ua_display")
 **Solution:** 
 1. Verify the library is in `/lib/bfu_ua_display/` on your ESP32
 2. Check that the folder contains `__init__.py`
-3. Try resetting your ESP32: `import machine; machine.reset()`
+3. List files using mpremote: `mpremote connect COM3 fs ls :/lib/bfu_ua_display`
+4. Try resetting your ESP32: `import machine; machine.reset()`
 
-**Problem:** Nested folders like `bfu_ua_display/font5x7.py/font5x7.py`
+**Problem:** `OSError: -202` when using mip
 
-**Solution:** This was caused by an older installation method. Delete the `bfu_ua_display` folder completely and reinstall using the recommended mip method above.
+**Solution:** This is a network/DNS error on ESP32. The on-device mip installation is failing due to TLS or network issues. Use the **mpremote method** (recommended) or **Thonny IDE method** instead.
 
 **Problem:** `ValueError: Unsupported Transfer-Encoding: chunked`
 
-**Solution:** This error is rare with the current package.json format. If you encounter it, use the manual installation method instead.
+**Solution:** This error occurs with some MicroPython firmware versions when using on-device mip. Use the **mpremote method** (recommended) or **Thonny IDE method** instead.
+
+**Problem:** Nested folders like `bfu_ua_display/font5x7.py/font5x7.py`
+
+**Solution:** This was caused by an older installation method. Clean up and reinstall:
+
+```bash
+# Remove incorrect installation
+mpremote connect COM3 fs rm -r :/lib/bfu_ua_display
+
+# Reinstall using mpremote method above
+```
+
+**Problem:** How do I find my COM port?
+
+**Solution:**
+- **Windows:** Check Device Manager → Ports (COM & LPT) → Look for "USB-SERIAL CH340" or similar
+- **Linux:** Run `ls /dev/ttyUSB*` or `ls /dev/ttyACM*`
+- **Mac:** Run `ls /dev/tty.usb*` or `ls /dev/cu.usb*`
+- **Thonny:** Bottom-right corner shows the port when connected
 
 ## 🚀 Quick Start
 
