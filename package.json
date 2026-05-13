@@ -1,9 +1,10 @@
 {
   "urls": [
-    ["https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/__init__.py", "bfu_ua_display/__init__.py"],
-    ["https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/font5x7.py", "bfu_ua_display/font5x7.py"],
-    ["https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/text_engine.py", "bfu_ua_display/text_engine.py"],
-    ["https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/utils.py", "bfu_ua_display/utils.py"]
+    ["__init__.py", "github:BrainFromUkraine/bfu_ua_display/bfu_ua_display/__init__.py"],
+    ["font5x7.py", "github:BrainFromUkraine/bfu_ua_display/bfu_ua_display/font5x7.py"],
+    ["text_engine.py", "github:BrainFromUkraine/bfu_ua_display/bfu_ua_display/text_engine.py"],
+    ["utils.py", "github:BrainFromUkraine/bfu_ua_display/bfu_ua_display/utils.py"]
   ],
+  "deps": [],
   "version": "0.1.0"
 }

@@ -21,48 +21,14 @@ A lightweight, optimized library for rendering Ukrainian text on displays common
 
 ## 📦 Installation
 
-### Method 1: Using mip (Recommended)
+### Recommended Method: Using mip
 
 ```python
 import mip
 mip.install("github:BrainFromUkraine/bfu_ua_display")
 ```
 
-**Note:** If you encounter `ValueError: Unsupported Transfer-Encoding: chunked`, use Method 2 or Method 3 below.
-
-### Method 2: Direct File Installation (Most Reliable)
-
-Download and install individual files directly from GitHub:
-
-```python
-import mip
-
-# Install all library files
-files = [
-    "bfu_ua_display/__init__.py",
-    "bfu_ua_display/font5x7.py",
-    "bfu_ua_display/text_engine.py",
-    "bfu_ua_display/utils.py"
-]
-
-for file in files:
-    url = f"https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/{file}"
-    mip.install(url, target=file)
-
-print("BFU UA Display installed successfully!")
-```
-
-### Method 3: Manual Installation
-
-1. Download the library files from GitHub:
-   - Go to https://github.com/BrainFromUkraine/bfu_ua_display
-   - Download the `bfu_ua_display` folder
-
-2. Upload to your ESP32 using:
-   - **Thonny IDE** (easiest for beginners)
-   - **ampy**: `ampy put bfu_ua_display`
-   - **rshell**: `rsync bfu_ua_display /pyboard/`
-   - **mpremote**: `mpremote cp -r bfu_ua_display :`
+This will install the library to `/lib/bfu_ua_display/` on your ESP32.
 
 ### Verify Installation
 
@@ -78,18 +44,60 @@ import bfu_ua_display
 print(f"Version: {bfu_ua_display.__version__}")
 ```
 
+### Alternative: Manual Installation
+
+If you prefer manual installation or encounter issues with mip:
+
+1. Download the library files from GitHub:
+   - Go to https://github.com/BrainFromUkraine/bfu_ua_display
+   - Download the `bfu_ua_display` folder
+
+2. Upload to your ESP32 using:
+   - **Thonny IDE** (easiest for beginners):
+     1. Open Thonny IDE
+     2. Connect your ESP32
+     3. View → Files
+     4. Create a `lib` folder on your ESP32 if it doesn't exist
+     5. Drag the `bfu_ua_display` folder into the `lib` folder
+   
+   - **ampy**: `ampy put bfu_ua_display /lib/bfu_ua_display`
+   - **rshell**: `rsync bfu_ua_display /pyboard/lib/`
+   - **mpremote**: `mpremote cp -r bfu_ua_display :lib/`
+
+### Cleanup (If You Had Installation Issues)
+
+If you previously installed the library incorrectly and have nested folders, clean up first:
+
+```python
+import os
+
+# Remove incorrect installation
+try:
+    os.rmdir('/lib/bfu_ua_display')
+except:
+    pass
+
+# Then reinstall using mip
+import mip
+mip.install("github:BrainFromUkraine/bfu_ua_display")
+```
+
 ### Troubleshooting
-
-**Problem:** `ValueError: Unsupported Transfer-Encoding: chunked`
-
-**Solution:** This error occurs with some MicroPython versions when using `mip.install()` with GitHub repositories. Use Method 2 (Direct File Installation) instead, which downloads files directly from raw.githubusercontent.com.
 
 **Problem:** `ImportError: no module named 'bfu_ua_display'`
 
 **Solution:** 
-1. Verify files are in the correct location on your ESP32
-2. Check that the `bfu_ua_display` folder contains `__init__.py`
+1. Verify the library is in `/lib/bfu_ua_display/` on your ESP32
+2. Check that the folder contains `__init__.py`
 3. Try resetting your ESP32: `import machine; machine.reset()`
+
+**Problem:** Nested folders like `bfu_ua_display/font5x7.py/font5x7.py`
+
+**Solution:** This was caused by an older installation method. Delete the `bfu_ua_display` folder completely and reinstall using the recommended mip method above.
+
+**Problem:** `ValueError: Unsupported Transfer-Encoding: chunked`
+
+**Solution:** This error is rare with the current package.json format. If you encounter it, use the manual installation method instead.
 
 ## 🚀 Quick Start
 
