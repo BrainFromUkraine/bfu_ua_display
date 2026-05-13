@@ -98,9 +98,11 @@ mpremote connect /dev/ttyUSB0 fs cp bfu_ua_display/utils.py :/lib/bfu_ua_display
    - На вашому ESP32 створіть папку `lib`, якщо її немає
    - Перетягніть папку `bfu_ua_display` в папку `lib`
 
-### Альтернатива 2: Пряме встановлення через mip (На пристрої)
+### Альтернатива 2: Пряме встановлення через mip (Експериментальне - Може не працювати)
 
-Якщо у вас є робоче підключення до інтернету на ESP32, ви можете встановити безпосередньо через mip:
+**⚠️ ПОПЕРЕДЖЕННЯ:** Цей метод є **експериментальним** і **часто не працює** на багатьох версіях прошивки ESP32 MicroPython через обмеження HTTPS/TLS/DNS. **Використовуйте mpremote або Thonny** для надійного встановлення.
+
+Якщо ви хочете спробувати встановлення на пристрої (не рекомендується):
 
 ```python
 import os
@@ -117,7 +119,7 @@ try:
 except:
     pass
 
-# Встановлюємо файли
+# Спроба встановити файли (може не вдатися з OSError: -202)
 files = [
     "__init__.py",
     "font5x7.py",
@@ -129,12 +131,17 @@ base = "https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/b
 
 for file in files:
     print(f"Встановлюємо {file}...")
-    mip.install(base + file, target="/lib/bfu_ua_display")
+    try:
+        mip.install(base + file, target="/lib/bfu_ua_display")
+    except OSError as e:
+        print(f"Помилка: {e}")
+        print("Використовуйте mpremote або Thonny замість цього!")
+        break
 
 print("✓ BFU UA Display встановлено успішно!")
 ```
 
-**⚠️ Примітка:** Цей метод вимагає робочого WiFi підключення на вашому ESP32. Якщо ви отримуєте помилки типу `OSError: -202` або `Unsupported Transfer-Encoding: chunked`, використовуйте **метод mpremote** (рекомендовано) або **метод Thonny IDE**.
+**Поширена помилка:** `OSError: -202` при завантаженні з raw.githubusercontent.com означає, що прошивка ESP32 MicroPython не може завершити HTTPS/TLS/DNS запити. Це **обмеження прошивки**, а не проблема бібліотеки. **Використовуйте mpremote або Thonny замість цього.**
 
 ### Альтернатива 3: Пакетний mip (Може не працювати)
 
