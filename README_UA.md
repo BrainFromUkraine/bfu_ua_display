@@ -98,16 +98,52 @@ mpremote connect /dev/ttyUSB0 fs cp bfu_ua_display/utils.py :/lib/bfu_ua_display
    - На вашому ESP32 створіть папку `lib`, якщо її немає
    - Перетягніть папку `bfu_ua_display` в папку `lib`
 
-### Альтернатива 2: Через mip на пристрої (Може не працювати)
+### Альтернатива 2: Пряме встановлення через mip (На пристрої)
 
-**⚠️ Попередження:** Цей метод може не працювати на деяких версіях прошивки ESP32 через проблеми з TLS/DNS/мережею.
+Якщо у вас є робоче підключення до інтернету на ESP32, ви можете встановити безпосередньо через mip:
+
+```python
+import os
+import mip
+
+# Створюємо директорії
+try:
+    os.mkdir("/lib")
+except:
+    pass
+
+try:
+    os.mkdir("/lib/bfu_ua_display")
+except:
+    pass
+
+# Встановлюємо файли
+files = [
+    "__init__.py",
+    "font5x7.py",
+    "text_engine.py",
+    "utils.py"
+]
+
+base = "https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/"
+
+for file in files:
+    print(f"Встановлюємо {file}...")
+    mip.install(base + file, target="/lib/bfu_ua_display")
+
+print("✓ BFU UA Display встановлено успішно!")
+```
+
+**⚠️ Примітка:** Цей метод вимагає робочого WiFi підключення на вашому ESP32. Якщо ви отримуєте помилки типу `OSError: -202` або `Unsupported Transfer-Encoding: chunked`, використовуйте **метод mpremote** (рекомендовано) або **метод Thonny IDE**.
+
+### Альтернатива 3: Пакетний mip (Може не працювати)
 
 ```python
 import mip
 mip.install("github:BrainFromUkraine/bfu_ua_display")
 ```
 
-Якщо ви отримуєте помилки типу `OSError: -202` або `Unsupported Transfer-Encoding: chunked`, використовуйте метод mpremote.
+**⚠️ Попередження:** Цей метод може не працювати на деяких версіях прошивки ESP32 через проблеми з TLS/DNS/мережею. Використовуйте Альтернативу 2 (Пряме встановлення через mip) або метод mpremote, якщо це не працює.
 
 ### Перевірка встановлення
 

@@ -76,16 +76,52 @@ mpremote connect /dev/ttyUSB0 fs cp bfu_ua_display/utils.py :/lib/bfu_ua_display
    - On your ESP32, create a `lib` folder if it doesn't exist
    - Drag the `bfu_ua_display` folder into the `lib` folder
 
-### Alternative Method 2: On-Device mip (May Have Issues)
+### Alternative Method 2: Direct mip Installation (On-Device)
 
-**⚠️ Warning:** This method may fail on some ESP32 firmware versions due to TLS/DNS/network issues.
+If you have a working internet connection on your ESP32, you can install directly using mip:
+
+```python
+import os
+import mip
+
+# Create directories
+try:
+    os.mkdir("/lib")
+except:
+    pass
+
+try:
+    os.mkdir("/lib/bfu_ua_display")
+except:
+    pass
+
+# Install files
+files = [
+    "__init__.py",
+    "font5x7.py",
+    "text_engine.py",
+    "utils.py"
+]
+
+base = "https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/"
+
+for file in files:
+    print(f"Installing {file}...")
+    mip.install(base + file, target="/lib/bfu_ua_display")
+
+print("✓ BFU UA Display installed successfully!")
+```
+
+**⚠️ Note:** This method requires a working WiFi connection on your ESP32. If you encounter errors like `OSError: -202` or `Unsupported Transfer-Encoding: chunked`, use the **mpremote method** (recommended) or **Thonny IDE method** instead.
+
+### Alternative Method 3: Package mip (May Have Issues)
 
 ```python
 import mip
 mip.install("github:BrainFromUkraine/bfu_ua_display")
 ```
 
-If you encounter errors like `OSError: -202` or `Unsupported Transfer-Encoding: chunked`, use the mpremote method instead.
+**⚠️ Warning:** This method may fail on some ESP32 firmware versions due to TLS/DNS/network issues. Use Method 2 (Direct mip) or the mpremote method if this fails.
 
 ### Verify Installation
 
