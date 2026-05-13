@@ -21,21 +21,75 @@ A lightweight, optimized library for rendering Ukrainian text on displays common
 
 ## 📦 Installation
 
-### Using mip (MicroPython Package Manager)
+### Method 1: Using mip (Recommended)
 
 ```python
 import mip
-mip.install("github:BFU-Electronics/bfu_ua_display")
+mip.install("github:BrainFromUkraine/bfu_ua_display")
 ```
 
-### Manual Installation
+**Note:** If you encounter `ValueError: Unsupported Transfer-Encoding: chunked`, use Method 2 or Method 3 below.
 
-1. Download the `bfu_ua_display` folder
-2. Upload it to your ESP32 using tools like:
-   - Thonny IDE
-   - ampy
-   - rshell
-   - mpremote
+### Method 2: Direct File Installation (Most Reliable)
+
+Download and install individual files directly from GitHub:
+
+```python
+import mip
+
+# Install all library files
+files = [
+    "bfu_ua_display/__init__.py",
+    "bfu_ua_display/font5x7.py",
+    "bfu_ua_display/text_engine.py",
+    "bfu_ua_display/utils.py"
+]
+
+for file in files:
+    url = f"https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/{file}"
+    mip.install(url, target=file)
+
+print("BFU UA Display installed successfully!")
+```
+
+### Method 3: Manual Installation
+
+1. Download the library files from GitHub:
+   - Go to https://github.com/BrainFromUkraine/bfu_ua_display
+   - Download the `bfu_ua_display` folder
+
+2. Upload to your ESP32 using:
+   - **Thonny IDE** (easiest for beginners)
+   - **ampy**: `ampy put bfu_ua_display`
+   - **rshell**: `rsync bfu_ua_display /pyboard/`
+   - **mpremote**: `mpremote cp -r bfu_ua_display :`
+
+### Verify Installation
+
+Test that the library is installed correctly:
+
+```python
+# Test import
+from bfu_ua_display import ua_text, ua_text_center, ua_text_scaled
+print("✓ BFU UA Display imported successfully!")
+
+# Check version
+import bfu_ua_display
+print(f"Version: {bfu_ua_display.__version__}")
+```
+
+### Troubleshooting
+
+**Problem:** `ValueError: Unsupported Transfer-Encoding: chunked`
+
+**Solution:** This error occurs with some MicroPython versions when using `mip.install()` with GitHub repositories. Use Method 2 (Direct File Installation) instead, which downloads files directly from raw.githubusercontent.com.
+
+**Problem:** `ImportError: no module named 'bfu_ua_display'`
+
+**Solution:** 
+1. Verify files are in the correct location on your ESP32
+2. Check that the `bfu_ua_display` folder contains `__init__.py`
+3. Try resetting your ESP32: `import machine; machine.reset()`
 
 ## 🚀 Quick Start
 

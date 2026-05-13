@@ -1,68 +1,9 @@
 {
-  "name": "bfu_ua_display",
-  "version": "0.1.0",
-  "description": "Professional Ukrainian text rendering library for MicroPython displays",
-  "author": "BFU Electronics",
-  "license": "MIT",
-  "keywords": [
-    "micropython",
-    "esp32",
-    "ukrainian",
-    "display",
-    "oled",
-    "ssd1306",
-    "text",
-    "font",
-    "cyrillic",
-    "rendering",
-    "graphics"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/BFU-Electronics/bfu_ua_display.git"
-  },
-  "homepage": "https://github.com/BFU-Electronics/bfu_ua_display",
-  "bugs": {
-    "url": "https://github.com/BFU-Electronics/bfu_ua_display/issues"
-  },
   "urls": [
-    ["Homepage", "https://github.com/BFU-Electronics/bfu_ua_display"],
-    ["Documentation", "https://github.com/BFU-Electronics/bfu_ua_display#readme"],
-    ["Examples", "https://github.com/BFU-Electronics/bfu_ua_display/tree/main/examples"]
+    ["https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/__init__.py", "bfu_ua_display/__init__.py"],
+    ["https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/font5x7.py", "bfu_ua_display/font5x7.py"],
+    ["https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/text_engine.py", "bfu_ua_display/text_engine.py"],
+    ["https://raw.githubusercontent.com/BrainFromUkraine/bfu_ua_display/main/bfu_ua_display/utils.py", "bfu_ua_display/utils.py"]
   ],
-  "deps": [],
-  "main": "bfu_ua_display/__init__.py",
-  "files": [
-    "bfu_ua_display/__init__.py",
-    "bfu_ua_display/font5x7.py",
-    "bfu_ua_display/text_engine.py",
-    "bfu_ua_display/utils.py"
-  ],
-  "examples": [
-    "examples/oled_i2c_example.py"
-  ],
-  "platforms": [
-    "esp32",
-    "esp8266",
-    "rp2040",
-    "stm32"
-  ],
-  "requirements": {
-    "micropython": ">=1.19"
-  },
-  "categories": [
-    "Display",
-    "Graphics",
-    "Text",
-    "Internationalization"
-  ],
-  "tags": [
-    "ukrainian",
-    "cyrillic",
-    "i18n",
-    "l10n",
-    "oled",
-    "lcd",
-    "tft"
-  ]
+  "version": "0.1.0"
 }
